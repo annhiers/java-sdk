@@ -10,11 +10,12 @@ import org.apache.tools.ant.filters.*
 apply plugin: 'java'
 apply plugin: 'ru.vyarus.animalsniffer'
 apply plugin: 'maven'
+apply plugin: 'maven-publish'
 apply plugin: 'signing'
 apply plugin: 'checkstyle'
 apply plugin: 'eclipse'
 
-version = '3.5.4-SNAPSHOT'
+version = '0.0.0-blake-test'
 group = 'com.ibm.watson.developer_cloud'
 
 task sourcesJar(type: Jar) {
@@ -49,6 +50,21 @@ signArchives {
             }
         }
         return shouldExec
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+}
+publishing {
+    repositories {
+        maven {
+            mavenCentral()
+        }
     }
 }
 
