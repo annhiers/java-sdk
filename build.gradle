@@ -5,6 +5,7 @@ apply plugin: 'checkstyle'
 apply plugin: 'eclipse'
 
 import org.apache.tools.ant.filters.*
+import groovy.io.FileType
 
 archivesBaseName = 'java-sdk'
 
@@ -19,10 +20,41 @@ task copyJars(type: Copy) {
   into "$buildDir/allJars"
 }
 
-task signJars(type: Copy) {
-  from subprojects.collect { it.tasks.withType(Sign) }
-  into "$buildDir/allJars"
+task copyJars2 << {
+  subprojects.each { proj ->
+    proj.tasks.withType(Jar)
+    def targetDir = proj.getProjectDir().getAbsolutePath() + "/" + proj.getName() + "-version"
+    copy {
+      from proj.getBuildDir().getAbsolutePath() + "/libs"
+      into targetDir
+      include "*.jar"
+    }
+  }
 }
+
+//task copyJars2(type: Copy) {
+//  subprojects.each { proj ->
+//    proj.tasks.withType(Jar)
+//  }
+  //from subprojects.collect { it.tasks.withType(Jar) }
+  //into ""
+  //subprojects.each { proj ->
+  //  proj.getProjectDir().getAbsolutePath() + "/" + proj.getName() + "-version"
+  //}
+//  subprojects.each { proj ->
+//    // println it.split(':')[1] }
+//    println proj.getProjectDir().getAbsolutePath() + "/" + proj.getName() + "-version"
+//
+//  }
+//}
+//task signJars(type: Copy) {
+//  from subprojects.collect { it.tasks.withType(Sign) }
+//  subproject.each{
+//    into "$buildDir/allJars"
+//  }
+//
+//}
+
 allprojects {
   apply plugin: 'java' // *Compatibility has no effect before the 'java' plug-in is applied
   apply plugin: 'jacoco'
