@@ -15,7 +15,6 @@ apply plugin: 'signing'
 apply plugin: 'checkstyle'
 apply plugin: 'eclipse'
 
-version = '0.0.0-blake-test'
 group = 'com.ibm.watson.developer_cloud'
 
 task sourcesJar(type: Jar) {
@@ -26,6 +25,10 @@ task sourcesJar(type: Jar) {
 task javadocJar(type: Jar, dependsOn: javadoc) {
     classifier = 'javadoc'
     from javadoc.destinationDir
+}
+
+task printVersion {
+    println("version =" + project.version)
 }
 
 repositories {

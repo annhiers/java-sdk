@@ -23,7 +23,7 @@ task copyJars(type: Copy) {
 task copyJars2 << {
   subprojects.each { proj ->
     proj.tasks.withType(Jar)
-    def targetDir = proj.getProjectDir().getAbsolutePath() + "/" + proj.getName() + "-version"
+    def targetDir = proj.getProjectDir().getAbsolutePath() + "/" + proj.getName() + "-" + proj.version
     copy {
       from proj.getBuildDir().getAbsolutePath() + "/libs"
       into targetDir
@@ -32,28 +32,13 @@ task copyJars2 << {
   }
 }
 
-//task copyJars2(type: Copy) {
-//  subprojects.each { proj ->
-//    proj.tasks.withType(Jar)
-//  }
-  //from subprojects.collect { it.tasks.withType(Jar) }
-  //into ""
-  //subprojects.each { proj ->
-  //  proj.getProjectDir().getAbsolutePath() + "/" + proj.getName() + "-version"
-  //}
-//  subprojects.each { proj ->
-//    // println it.split(':')[1] }
-//    println proj.getProjectDir().getAbsolutePath() + "/" + proj.getName() + "-version"
-//
-//  }
-//}
-//task signJars(type: Copy) {
-//  from subprojects.collect { it.tasks.withType(Sign) }
-//  subproject.each{
-//    into "$buildDir/allJars"
-//  }
-//
-//}
+task testing {
+//  println prop
+  subprojects.each { proj ->
+//    println proj.getProjectDir().getAbsolutePath() + "/" + proj.getName() + "${version}"
+    println proj.getProjectDir().getAbsolutePath() + "/" + proj.getName() + "-" + proj.version + "\n"
+  }
+}
 
 allprojects {
   apply plugin: 'java' // *Compatibility has no effect before the 'java' plug-in is applied
